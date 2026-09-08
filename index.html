@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PS.CORNER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --corner-primary: #00e5ff; --corner-secondary: #ff007f; --dark-bg: rgba(10, 15, 25, 0.95); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { min-height: 100vh; background: #050510; color: #fff; font-family: 'Cairo', sans-serif; display: flex; align-items: center; justify-content: center; direction: rtl; overflow: hidden; }
+  body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top left, rgba(0, 229, 255, 0.15) 0%, transparent 60%), radial-gradient(circle at bottom right, rgba(255, 0, 127, 0.15) 0%, transparent 50%); z-index: 0; }
+  .hud-container { position: relative; z-index: 1; width: 95%; max-width: 800px; background: var(--dark-bg); border-top: 3px solid var(--corner-primary); border-bottom: 3px solid var(--corner-secondary); border-radius: 15px; padding: 40px 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 30px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(255, 0, 127, 0.1); overflow: hidden; }
+  .brand-title { font-family: 'Orbitron', sans-serif; font-size: 5rem; font-weight: 900; text-align: center; margin-bottom: 5px; letter-spacing: 2px; color: #fff; text-shadow: 0 0 20px var(--corner-primary), 2px 2px 0px var(--corner-secondary); direction: ltr; }
+  .brand-sub { font-size: 1.6rem; text-align: center; color: #e0e0e0; font-weight: 900; letter-spacing: 1px; margin-bottom: 25px; text-shadow: 0 0 10px rgba(0, 229, 255, 0.8); }
+  
+  .contact-info { text-align: center; font-size: 1.1rem; color: #d0d0d0; margin-bottom: 25px; direction: rtl; line-height: 1.8; border-radius: 10px; padding: 20px; background: rgba(0, 0, 0, 0.6); border: 1px dashed rgba(255, 0, 127, 0.5); box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+  .contact-info .address { font-size: 1.2rem; color: var(--corner-primary); font-weight: bold; margin-bottom: 10px; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4); border-bottom: 1px solid #333; padding-bottom: 10px; }
+  .contact-info span { color: var(--corner-secondary); font-weight: 900; margin-left: 5px; }
+  .contact-info .phones { direction: ltr; display: inline-block; font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: #fff; text-shadow: 0 0 10px var(--corner-primary); font-weight: bold; margin-top: 5px; }
+
+  .status-panel { background: rgba(0, 0, 0, 0.8); padding: 25px 20px; border-radius: 8px; border: 1px solid #222; border-right: 5px solid var(--corner-primary); border-left: 5px solid var(--corner-secondary); margin-bottom: 10px; position: relative; }
+  .status-panel::before { content: 'SYSTEM_STATUS'; position: absolute; top: -12px; left: 15px; background: var(--corner-secondary); color: #fff; padding: 2px 10px; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; border-radius: 4px; box-shadow: 0 0 8px var(--corner-secondary); }
+  #state { font-size: 26px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
+  #det { font-size: 16px; color: #aaa; text-align: center; line-height: 1.8; }
+  #det b { color: var(--corner-primary); font-family: 'Orbitron', sans-serif; }
+  #cache { font-size: 14px; color: #777; text-align: center; margin-top: 15px; font-weight: bold; font-family: 'Orbitron', sans-serif; }
+  #cache.cacheok { color: var(--corner-primary); text-shadow: 0 0 8px var(--corner-primary); }
+  .ok { color: var(--corner-primary); } .bad { color: #ff0055; } .warn { color: var(--corner-secondary); }
+  .footer-sys { position: fixed; bottom: 10px; right: 20px; font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 2px; z-index: 2; direction: ltr; }
+  @media (max-width: 600px) { .brand-title { font-size: 3.5rem; } .brand-sub { font-size: 1.2rem; } .hud-container { padding: 30px 15px; } .contact-info { font-size: 0.95rem; } .contact-info .phones { font-size: 1.3rem; } .contact-info .address { font-size: 1rem; } }
+</style>
+</head>
+<body>
+<div class="hud-container">
+  <h1 class="brand-title">PS.CORNER</h1>
+  <div class="brand-sub">إدارة: أحمد صلاح</div>
+  
+  <div class="contact-info">
+    <div class="address">📍 المنصورة - العباسي خلف مديرية الأمن - سنتر البنزينة الدور الثاني</div>
+    <div><span>📞 للتواصل:</span> <br><div class="phones">01009203828</div></div>
+  </div>
+
+  <div class="status-panel"><div id="state">جارٍ فحص النظام...</div><div id="det"></div><div id="cache"></div></div>
+</div>
+<div class="footer-sys">PS.CORNER v1.0</div>
+<script>
+(function () {
+    var stateEl = document.getElementById("state"), detEl = document.getElementById("det"), cacheEl = document.getElementById("cache");
+    function setState(t, c) { stateEl.innerHTML = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = "> " + t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search), key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) { var minor = parseInt(m[2], 16), ms = minor.toString(16); if (ms.length < 2) ms = "0" + ms; key = m[1] + "." + ms; fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10); }
+    var bug = null, why = "", forced = params.get("bug");
+    if (forced === "lapse" || forced === "poops") { bug = forced; why = "تم التحديد يدوياً ?bug=" + forced; } else if (!key) { why = "تحذير: هذا المتصفح ليس بلايستيشن 4"; } else if (fwnum <= 1202) { bug = "lapse"; why = "النظام مدعوم: توجيه مسار (Lapse)"; } else if (fwnum >= 1250) { bug = "poops"; why = "النظام مدعوم: توجيه مسار (Poops)"; } else { why = "تحذير: هذا الإصدار غير مدعوم حالياً"; }
+    var fwDisplay = key ? "<b>V_" + key + "</b>" : "<span style='color:#8f9eb0;'>UNKNOWN</span>", bugDisplay = bug ? "<b style='color:var(--corner-primary);'>" + bug.toUpperCase() + "_CHAIN</b>" : "<span style='color:#8f9eb0;'>N/A</span>";
+    detEl.innerHTML = "OS_VERSION: " + fwDisplay + " | EXPLOIT: " + bugDisplay + "<br><br><span style='color: var(--corner-secondary); font-size:16px;'>" + why + "</span>";
+    if (!bug) { setState("إصدار غير مدعوم ACCESS DENIED", "bad"); return; }
+    var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html") + location.search;
+    function go() { setState("جارٍ تهيئة الثغرة INITIATING...", "warn"); setTimeout(function() { location.replace(target); }, 500); }
+    function waitForTap(msg, action) { setState(msg, "warn"); function fire() { window.removeEventListener("click", fire); window.removeEventListener("keydown", fire); action(); } window.addEventListener("click", fire); window.addEventListener("keydown", fire); }
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) { go(); }
+    else if (!navigator.onLine) { setCache("وضع الأوفلاين نشط", true); go(); }
+    else if (ac.status === ac.IDLE) { setCache("ملفات الكاش جاهزة للاستخدام", true); go(); }
+    else if (ac.status === ac.UPDATEREADY) { try { ac.swapCache(); } catch (e) {} setCache("تم تحميل التحديث بنجاح", true); waitForTap("تحديث جاهز — اضغط للتنفيذ", function () { location.reload(); }); } else {
+        setCache("جارٍ فحص التخزين المؤقت...");
+        ac.addEventListener("downloading", function () { setCache("يتم سحب الملفات للمرة الأولى..."); }, false);
+        ac.addEventListener("progress", function (e) { if (e && e.total) { setCache("جاري التخزين: " + Math.round((e.loaded / e.total) * 100) + "%"); } }, false);
+        ac.addEventListener("cached", function () { setCache("اكتمل التخزين — يمكنك الاستخدام بدون نت", true); waitForTap("النظام جاهز — اضغط للتشغيل", go); }, false);
+        ac.addEventListener("updateready", function () { try { ac.swapCache(); } catch (e) {} setCache("التحديث جاهز", true); waitForTap("تحديث متوفر — اضغط لإعادة التحميل", function () { location.reload(); }); }, false);
+        ac.addEventListener("noupdate", function () { setCache("التخزين المؤقت محدث وجاهز", true); go(); }, false);
+        ac.addEventListener("error", function () { setCache("حدث خطأ في سحب الكاش"); waitForTap("فشل التخزين — اضغط للتشغيل الإجباري", go); }, false);
+        ac.addEventListener("obsolete", function () { setCache("ملفات الكاش قديمة"); waitForTap("تنبيه ملفات قديمة — اضغط للتشغيل", go); }, false);
+    }
+})();
+</script>
+</body>
+</html>
